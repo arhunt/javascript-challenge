@@ -2,14 +2,25 @@
 var tableData = data;
 
 // Select action areas of the page
-var filters = d3.select("#filter");
+var filters = d3.select(".form-group");
+// Filters enter is not working anymore??
 var button = d3.select("#filter-btn");
 var tbody = d3.select("tbody")
 
 // Create event handlers
+filters.on("submit", runEnter);
 // Filters enter is not working anymore??
 button.on("click", runEnter);
-filters.on("submit", runEnter);
+
+console.log("PRESENTING ALL, UNFILTERED DATA.")
+// All data
+tableData.forEach(function (datum) {
+    var row = tbody.append("tr");
+    Object.entries(datum).forEach(function([key, value]) {
+        var cell = row.append("td");
+        cell.text(value);
+    });
+});
 
 // Event handler
 function runEnter() {
@@ -23,33 +34,29 @@ function runEnter() {
 
     // Grab city
     var inputCityElement = d3.select("#city");
-    var inputCity = inputCityElement.property("value");
-    inputCity = inputCity.toLowerCase();
+    var inputCity = inputCityElement.property("value").toLowerCase();
 
     // Grab state
     var inputStateElement = d3.select("#state");
-    var inputState = inputStateElement.property("value");
-    inputState = inputState.toLowerCase();
+    var inputState = inputStateElement.property("value").toLowerCase();
 
     // Grab country
     var inputCountryElement = d3.select("#country");
-    var inputCountry = inputCountryElement.property("value");
-    inputCountry = inputCountry.toLowerCase();
+    var inputCountry = inputCountryElement.property("value").toLowerCase();
 
     // Grab shape
     var inputShapeElement = d3.select("#shape");
-    var inputShape = inputShapeElement.property("value");
-    inputShape = inputShape.toLowerCase();
+    var inputShape = inputShapeElement.property("value").toLowerCase();
 
     // Return all final input into the console
-    console.log("Filters:")
-    console.log(inputDate);
-    console.log(inputCity);
-    console.log(inputState);
-    console.log(inputCountry);
-    console.log(inputShape);
+    console.log("FILTER(S) APPLIED:")
+    console.log(`  Date: ${inputDate}`);
+    console.log(`  City: ${inputCity}`);
+    console.log(`  State: ${inputState}`);
+    console.log(`  Country: ${inputCountry}`);
+    console.log(`  Shape: ${inputShape}`);
 
-    // Establish the filter
+    // Establish that no filter will return all data
     var filteredData = tableData;
 
     // If date is filled out, filter by date
